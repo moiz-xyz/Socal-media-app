@@ -27,17 +27,16 @@ upload.addEventListener("click", async (event) => {
     alert("Post must consist of either an image or some text");
     return;
   }
-// supa base storge
-    // const { data, error } = await supabase.storage
-    //   .from("images")
-    //   .upload(fileName, file);
+  const { data, error } = await supabase.storage
+    .from("images")
+    .upload(fileName, file);
 
-    // if (error) {
-    //   console.error("Upload error:", error.message);
-    // } else {
-    //   console.log("File uploaded successfully:", data);
-    //   getPublicUrl(fileName);
-    // }
+  if (error) {
+    console.error("Upload error:", error.message);
+  } else {
+    console.log("File uploaded successfully:", data);
+    getPublicUrl(fileName);
+  }
 
   let storedProfile = JSON.parse(localStorage.getItem("profile")) || {};
   if (storedProfile.image) {
@@ -93,15 +92,16 @@ upload.addEventListener("click", async (event) => {
 
 //  profile details
 let profileDiv = document.getElementById("profile_page");
+let profile = document.getElementById("profile");
 profileDiv.innerHTML = ` <div class="profile-section" id="profileSection">
 <h2>Profile-Deatails</h2>
-<img id="profileImage" src="https://cdn.vectorstock.com/i/1000v/66/13/default-avatar-profile-icon-social-media-user-vector-49816613.jpg" alt="Profile Picture">
-<p> <i class="fa-solid fa-pencil" id ="setiamge"> </i> Set an image </p>
-<br>
-<div id = "inputforiamge"> </div>
-<p id="nameInput"> </p>
-<p id="usernameInput"> </p>
-<p id="emailInput"> </p>
+        <img id="profileImage" src="https://cdn.vectorstock.com/i/1000v/66/13/default-avatar-profile-icon-social-media-user-vector-49816613.jpg" alt="Profile Picture">
+         <p> <i class="fa-solid fa-pencil" id ="setiamge"> </i> Set an image </p>
+        <br>
+        <div id = "inputforiamge"> </div>
+        <p id="nameInput"> </p>
+        <p id="usernameInput"> </p>
+        <p id="emailInput"> </p>
         <button class="close-btn" id= "close-btn">Close</button> 
         </div>
         `;
@@ -112,16 +112,15 @@ set_icon.addEventListener("click", function () {
   inputforiamge.innerHTML = `
              <input type="file" id="imageInput">
              <button class="save-btn" id="saveProfile">Save Profile</button>
-             `;
-             let save_btn = document.getElementById("saveProfile");
-             save_btn.addEventListener("click", function () {
-               let image = document.getElementById("profileImage").src;
-               let profileData = {
+            `;
+  let save_btn = document.getElementById("saveProfile");
+  save_btn.addEventListener("click", function () {
+    let image = document.getElementById("profileImage").src;
+    let profileData = {
       image,
     };
     localStorage.setItem("profile", JSON.stringify(profileData));
   });
-  let profile = document.getElementById("profile");
   document
     .getElementById("imageInput")
     .addEventListener("change", function (event) {
@@ -132,10 +131,6 @@ set_icon.addEventListener("click", function () {
       reader.readAsDataURL(event.target.files[0]);
     });
 });
-
-
-
-
 profile.addEventListener("click", async function () {
   let profileSection = document.getElementById("profileSection");
   profileSection.classList.toggle("active");
@@ -159,15 +154,17 @@ profile.addEventListener("click", async function () {
     document.getElementById("profileImage").src = storedProfile.image;
   }
 });
-
-
-
-
-// close prolfie section
 let close_btn = document.getElementById("close-btn");
 close_btn.addEventListener("click", function () {
   let profileSection = document.getElementById("profileSection");
   profileSection.classList.toggle("active");
 });
 
+// function dataget () {
+//     let storedUsers = JSON.parse(localStorage.getItem("users")) || [];
+//     storedUsers.forEach(user => console.log("User Email:", user.email ,
+//         username_of_user, user.password
+//     ));
 
+// }
+// dataget()
