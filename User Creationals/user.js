@@ -15,7 +15,7 @@ const app = initializeApp(firebaseConfig);
 let signup_Btn = document.getElementById("register-btn");
 signup_Btn.addEventListener("click", async (event) => {
     event.preventDefault(); 
-    let nameofuser = document.getElementById("nameofuser").value
+    let nameofuser = document.getElementById("nameofuser").value;
     let signupemail = document.getElementById("regemail").value;
     let signupname = document.getElementById("reguser").value;
     let signuppass = document.getElementById("regpass").value;
@@ -30,8 +30,9 @@ signup_Btn.addEventListener("click", async (event) => {
             console.error("Signup Error:", error.message);
             Swal.fire("Error", error.message, "error");
         } else {
-            console.log("Signup Success:", data);
+            container.classList.remove("active");
             Swal.fire("Success!", "Account created successfully", "success");
+
         }
     } catch (err) {
         console.error("Unexpected Error:", err);
@@ -79,6 +80,8 @@ console.log("Data done ");
     document.getElementById("regemail").value = "";
     document.getElementById("reguser").value = "";
     document.getElementById("regpass").value = "";
+    document.getElementById("nameofuser").value
+
 });
 
 
@@ -91,8 +94,6 @@ login_btn.addEventListener("click", async (event) => {
     let loginemail = document.getElementById("login_email").value;
     let loginpass = document.getElementById("login_pass").value;
 
-    console.log("Attempting Login:", loginemail);
-
     try {
         const { data, error } = await supabase.auth.signInWithPassword({
             email: loginemail,
@@ -103,6 +104,7 @@ login_btn.addEventListener("click", async (event) => {
             Swal.fire("Error", error.message, "error");
         } else {
             Swal.fire("Success!", "Logged in successfully", "success");
+            window.location.href  = "../Link-up Ui/index.html";
         }
     } catch (err) {
         console.error("Unexpected Error:", err);
