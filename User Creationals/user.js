@@ -15,11 +15,10 @@ const app = initializeApp(firebaseConfig);
 let signup_Btn = document.getElementById("register-btn");
 signup_Btn.addEventListener("click", async (event) => {
     event.preventDefault(); 
-
+    let nameofuser = document.getElementById("nameofuser").value
     let signupemail = document.getElementById("regemail").value;
     let signupname = document.getElementById("reguser").value;
     let signuppass = document.getElementById("regpass").value;
-
 
     try {
         const { data, error } = await supabase.auth.signUp({
@@ -37,6 +36,22 @@ signup_Btn.addEventListener("click", async (event) => {
     } catch (err) {
         console.error("Unexpected Error:", err);
     }
+
+
+    // SENDING DATA TO LOCAL STORAGE
+let existingUsers = JSON.parse(localStorage.getItem("users")) || [];
+let user_Data = {
+    name : nameofuser ,
+    email: signupemail,
+    username: signupname,
+    password: signuppass
+};
+
+existingUsers.push(user_Data);
+console.log("data send to local storagae");
+
+
+localStorage.setItem("users", JSON.stringify(existingUsers));
 
 
     // SENDING DATA TO DATA BASE
