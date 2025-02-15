@@ -1,5 +1,8 @@
-import { supabase, Supabaseconfig } from "./config.js";
-// console.log(supabase, Supabaseconfig);
+import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm';
+import { Supabaseconfig } from "../User Creationals/config.js";
+
+const supabase = createClient(Supabaseconfig.url, Supabaseconfig.ApiKey);
+// console.log(supabase);
 
 let create_btn = document.getElementById("create_btn");
 let closebtn = document.getElementById("close");
