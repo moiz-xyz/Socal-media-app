@@ -1,7 +1,7 @@
 import { supabase , Supabaseconfig,app} from "../config.js";
 import { getAuth, GoogleAuthProvider, signInWithPopup, signOut } 
 from "https://www.gstatic.com/firebasejs/11.1.0/firebase-auth.js";
-console.log(supabase , Supabaseconfig);
+// console.log(supabase , Supabaseconfig);
 
 
 
