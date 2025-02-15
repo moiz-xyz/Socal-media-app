@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="./logo (2).png">
+    <title>Link-up</title>
+    <link rel="stylesheet" href="ui.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Kanit:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+<script src="https://kit.fontawesome.com/8dd8a19338.js" crossorigin="anonymous"></script>
+
+</head>
+<body>
+    <div class="main">
+        <div class="nav">
+            <div class="head">
+                <h3>Link-up</h3>
+            </div>
+            <div class="categories">
+                <button> <i class="fa-solid fa-house"></i> Home</button> <br> 
+                <button id="create_btn"> <i class="fa-solid fa-plus"></i> Create</button> <br> 
+                <button id="profile"> <i class="fa-solid fa-user"></i> Profile</button> <br> 
+                <button> <i class="fa-solid fa-bars"></i> More</button>   
+            </div>
+        </div>
+        <div class="posts">
+            <div class="stories">
+       <img src="./stories.png" alt="" srcset="">
+            </div>
+            <div class="post">
+                 <img src="./How-to-Edit-an-Instagram-Post-A-Complete-Guide-768x388.jpg" alt="">
+            </div>
+        </div>
+    </div>
+            <div id="post-container">
+         
+            </div>
+
+        </div>
+    <div class="form-container" id="postForm">
+        <form action="">
+            <i class="fa-solid fa-xmark" id="close"></i>
+            <label for="file">
+                <input type="file" id="file">
+            </label>    
+            <label for="caption">
+                <input type="text" placeholder="Add a caption" id="caption">
+            </label>
+            <button class="upload-btn" id="upload">Upload</button>
+        </form>
+    </div>
+    
+    <script type="module" src="ui.js"></script>
+</body>
+</html>
