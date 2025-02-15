@@ -87,6 +87,7 @@ console.log("Data done ");
 
 
 // LOGIN FUNCTION
+// LOGIN FUNCTION
 let login_btn = document.getElementById("login_btn");
 login_btn.addEventListener("click", async (event) => {
     event.preventDefault();
@@ -103,8 +104,15 @@ login_btn.addEventListener("click", async (event) => {
         if (error) {
             Swal.fire("Error", error.message, "error");
         } else {
-            Swal.fire("Success!", "Logged in successfully", "success");
-            window.location.href  = "../Link-up Ui/index.html";
+            Swal.fire({
+                title: "Success!",
+                text: "Logged in successfully",
+                icon: "success",
+                timer: 2000,  // Show the alert for 2 seconds
+                showConfirmButton: false
+            }).then(() => {
+                window.location.href = "../Link-up Ui/index.html"; 
+            });
         }
     } catch (err) {
         console.error("Unexpected Error:", err);
@@ -113,7 +121,6 @@ login_btn.addEventListener("click", async (event) => {
     document.getElementById("login_email").value = "";
     document.getElementById("login_pass").value = "";
 });
-
  // GOOGLE FUNCTION  WITH FIREBASE 
 //  console.log(app);
 const auth = getAuth(app);
