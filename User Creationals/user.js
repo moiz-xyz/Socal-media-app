@@ -108,7 +108,7 @@ login_btn.addEventListener("click", async (event) => {
                 title: "Success!",
                 text: "Logged in successfully",
                 icon: "success",
-                timer: 2000,  // Show the alert for 2 seconds
+                timer: 1000,  // Show the alert for 2 seconds
                 showConfirmButton: false
             }).then(() => {
                 window.location.href = "../Link-up Ui/index.html"; 
@@ -131,8 +131,17 @@ reg_By_Google .addEventListener ('click' , async ()=>{
   .try((result) => {
     const credential = GoogleAuthProvider.credentialFromResult(result);
     const user = result.user;
+    Swal.fire({
+        title: "Success!",
+        text: "Logged in successfully",
+        icon: "success",
+        timer: 1000,  // Show the alert for 2 seconds
+        showConfirmButton: false
+    }).then(() => {
+        window.location.href = "../Link-up Ui/index.html"; 
+    });
+    // console.log("Login successful! User info:", user);
 
-    console.log("Login successful! User info:", user);
   })
   .catch((error) => {
     const errorCode = error.code;
