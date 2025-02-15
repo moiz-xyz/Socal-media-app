@@ -1,6 +1,6 @@
 import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm';
 import { initializeApp } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-app.js";
-import { Supabaseconfig ,firebaseConfig } from '../config.js';
+import { Supabaseconfig ,firebaseConfig } from "./config.js";
 import { getAuth, GoogleAuthProvider, signInWithPopup, signOut } 
 from "https://www.gstatic.com/firebasejs/11.1.0/firebase-auth.js";
 
