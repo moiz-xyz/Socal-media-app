@@ -27,16 +27,16 @@ upload.addEventListener("click", async (event) => {
     alert("Post must consist of either an image or some text");
     return;
   }
-  const { data, error } = await supabase.storage
-    .from("images")
-    .upload(fileName, file);
+  // const { data, error } = await supabase.storage
+  //   .from("images")
+  //   .upload(fileName, file);
 
-  if (error) {
-    console.error("Upload error:", error.message);
-  } else {
-    console.log("File uploaded successfully:", data);
-    getPublicUrl(fileName);
-  }
+  // if (error) {
+  //   console.error("Upload error:", error.message);
+  // } else {
+  //   console.log("File uploaded successfully:", data);
+  //   getPublicUrl(fileName);
+  // }
 
   let storedProfile = JSON.parse(localStorage.getItem("profile")) || {};
   if (storedProfile.image) {
