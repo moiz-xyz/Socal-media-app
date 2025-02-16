@@ -40,10 +40,10 @@ upload.addEventListener("click", async (event) => {
 
 
 
-  // let storedProfile = JSON.parse(localStorage.getItem("profile")) || {};
-  // if (storedProfile.image) {
-  //   document.getElementById("profile-pic").src = storedProfile.image;
-  // }
+  let storedProfile = JSON.parse(localStorage.getItem("profile")) || {};
+  if (storedProfile.image) {
+    document.getElementById("profile-pic").src = storedProfile.image;
+  }
   let storedUsers = JSON.parse(localStorage.getItem("users")) || [];
   let username_of_user = storedUsers.map((user) => user.username);
   let name_of_user = storedUsers.map((user) => user.name);
