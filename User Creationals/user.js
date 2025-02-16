@@ -87,7 +87,6 @@ console.log("Data done ");
 
 
 // LOGIN FUNCTION
-// LOGIN FUNCTION
 let login_btn = document.getElementById("login_btn");
 login_btn.addEventListener("click", async (event) => {
     event.preventDefault();
