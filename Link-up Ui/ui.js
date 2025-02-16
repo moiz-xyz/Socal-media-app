@@ -38,6 +38,8 @@ upload.addEventListener("click", async (event) => {
   //   getPublicUrl(fileName);
   // }
 
+  
+
   let storedProfile = JSON.parse(localStorage.getItem("profile")) || {};
   if (storedProfile.image) {
     document.getElementById("profile-pic").src = storedProfile.image;
