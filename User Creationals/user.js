@@ -43,11 +43,10 @@ signup_Btn.addEventListener("click", async (event) => {
 
   try {
     const { error } = await supabase
-  .from('users')
+  .from('posts')
   .insert({ 
       user_name: nameofuser,
       username: reguser,
-     Email : signupemail ,
      })
      if (error) {
         console.log(error.message);

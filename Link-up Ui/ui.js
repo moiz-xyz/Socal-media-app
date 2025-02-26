@@ -2,11 +2,10 @@ import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js
 import { Supabaseconfig } from "../config.js";
 
 const supabase = createClient(Supabaseconfig.url, Supabaseconfig.ApiKey);
-console.log(supabase);
 
 let create_btn = document.getElementById("create_btn");
 let closebtn = document.getElementById("close");
-let postForm = document.getElementById("postForm");
+let postForm = document.getElementById("postForm"); // Added this line
 
 // Toggle post form visibility
 create_btn.addEventListener("click", () => {
@@ -17,89 +16,75 @@ closebtn.addEventListener("click", () => {
   postForm.classList.remove("active");
 });
 
-// Function to get logged-in user details
-const getUserDetails = async () => {
-  const { data: { user } } = await supabase.auth.getUser();
-  return user;
-};
-
-// Upload Post
 let uploadPost = async (event) => {
   event.preventDefault();
 
   let caption = document.getElementById("caption").value;
   let fileInput = document.getElementById("file");
-  let file = fileInput.files[0];
+  let file = fileInput.files.length > 0 ? fileInput.files[0] : null;
 
   if (!file && caption.trim() === "") {
     alert("Post must consist of either an image or some text");
     return;
   }
 
-  // Get logged-in user
-  let user = await getUserDetails();
-  if (!user) {
-    alert("User not found. Please log in.");
-    return;
-  }
-
-  // Fetch user details from Supabase
-  let { data: userData, error: userError } = await supabase
-    .from("users")
-    .select("user_name, username")
-    .eq("id", user.id)
-    .single();
-
-  if (userError) {
-    console.error("Error fetching user details:", userError.message);
-    return;
-  }
-
-  let imageUrl = null;
+  let imageUrl = "";
   if (file) {
-    const fileName = `${Date.now()}-${file.name}`;
-    let { data: uploadData, error: uploadError } = await supabase.storage
-      .from("user_uploads") // Change "user_uploads" to your actual bucket
-      .upload(fileName, file);
+    const fileName = `user_uploads/${Date.now()}-${file.name}`;
+    let { data, error } = await supabase.storage
+      .from("images") // Ensure this matches your Supabase bucket name
+      .upload(fileName, file, { contentType: file.type });
 
-    if (uploadError) {
-      console.error("Error uploading file:", uploadError.message);
-      alert("File upload failed");
+    if (error) {
+      console.error("Image upload failed:", error.message);
+      alert("Failed to upload image");
       return;
     }
 
-    imageUrl = `https://tsiriyarbapweplseeqv.supabase.co/storage/v1/object/public/user_uploads/${fileName}`;
+    imageUrl = `https://tsiriyarbapweplseeqv.supabase.co/storage/v1/object/public/images/${fileName}`;
   }
 
-  // Insert Post into Database
-  let { error: postError } = await supabase
-    .from("posts")
-    .insert([{ 
-      caption, 
-      image_url: imageUrl, 
-      user_name: userData.user_name, 
-      username: userData.username 
-    }]);
+ let  getdata = async ()=>{
+    
+    try {
+        const { data, error } = await supabase
+        .from('users')
+        .select()
+        if (data){
+            console.log( data[0].user_name);
+            
+        }
+        if (error) {
+        console.log(error.message);
+        
+    }
+} catch (error) {
+    console.log(error.message);
+    
+ }
 
-  if (postError) {
-    console.error("Error inserting post:", postError.message);
+ }
+  let { data, error } = await supabase
+    .from("posts")
+    .insert([{ caption, image_url: imageUrl, user_name: data[0].user_name, username: "@johndoe" }]);
+
+  if (error) {
+    console.error("Error inserting post:", error.message);
     alert("Failed to post");
     return;
   }
 
-  alert("Post posted!");
+  alert("Post posted");
   postForm.classList.remove("active");
-  document.getElementById("caption").value = "";
-  fileInput.value = "";
 };
 
-// Function to display posts
+// Function to display a post
 let postui = (name_of_user, username_of_user, caption, imageUrl) => {
   let post_div = document.createElement("div");
   post_div.innerHTML = `
     <div class="post-card">
         <div class="post-header">
-            <img src="https://w7.pngwing.com/pngs/178/595/png-transparent-user-profile-computer-icons-login-user-avatars-thumbnail.png" alt="User" class="profile-pic">
+            <img src="https://cdn.vectorstock.com/i/1000v/66/13/default-avatar-profile-icon-social-media-user-vector-49816613.jpg" alt="User" class="profile-pic">
             <p>${name_of_user}</p>
             <span class="username">${username_of_user}</span>
         </div>
@@ -130,7 +115,7 @@ let fetchPosts = async () => {
 };
 
 // Listen for real-time new posts
-supabase
+const channel = supabase
   .channel("posts_changes")
   .on("postgres_changes", { event: "INSERT", schema: "public", table: "posts" }, (payload) => {
     let newPost = payload.new;
@@ -141,5 +126,5 @@ supabase
 // Load posts on page open
 fetchPosts();
 
-// Listen for form submission
-document.getElementById("postForm").addEventListener("submit", uploadPost);
+document.getElementById("upload").addEventListener("click", uploadPost);
+
