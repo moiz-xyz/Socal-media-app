@@ -1,5 +1,5 @@
 import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm";
-import { Supabaseconfig } from "../User Creationals/config.js";
+import { Supabaseconfig } from "../config.js";
 
 const supabase = createClient(Supabaseconfig.url, Supabaseconfig.ApiKey);
 
