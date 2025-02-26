@@ -2,6 +2,7 @@ import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js
 import { Supabaseconfig } from "../config.js";
 
 const supabase = createClient(Supabaseconfig.url, Supabaseconfig.ApiKey);
+console.log(supabase);
 
 let create_btn = document.getElementById("create_btn");
 let closebtn = document.getElementById("close");
