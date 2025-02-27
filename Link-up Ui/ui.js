@@ -42,7 +42,7 @@ let uploadPost = async (event) => {
       alert("Failed to upload image");
       return;
     }
-    imageUrl =  `https://tsiriyarbapweplseeqv.supabase.co/rest/v1/users?select=user_name,username,Email&id=eq.7376d3d1-308b-4383-8bee-a563ade28667`;
+    imageUrl = `https://tsiriyarbapweplseeqv.supabase.co/storage/v1/object/public/images/${fileName}`;
   }
   
  
