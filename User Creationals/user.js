@@ -20,6 +20,9 @@ signup_Btn.addEventListener("click", async (event) => {
     let signupname = document.getElementById("reguser").value;
     let signuppass = document.getElementById("regpass").value;
 
+    console.log();
+    
+
     try {
         const { data, error } = await supabase.auth.signUp({
             email: signupemail,
@@ -32,33 +35,30 @@ signup_Btn.addEventListener("click", async (event) => {
         } else {
             container.classList.remove("active");
             Swal.fire("Success!", "Account created successfully", "success");
-
-        }
-    } catch (err) {
-        console.error("Unexpected Error:", err);
-    }
-
-
-    // SENDING DATA TO DATA BASE
-
-  try {
-    const { error } = await supabase
-  .from('posts')
-  .insert({ 
+// SENDING DATA TO DATA  BASE
+            try {
+                const { error } = await supabase
+                .from('users')
+                .insert({ 
       user_name: nameofuser,
-      username: reguser,
-     })
+      username: signupname,
+      Email : signupemail ,
+    })
      if (error) {
         console.log(error.message);
-     } 
-     else{
-console.log("Data done ");
-        
-     }
-
-  } catch (err) {
+    } 
+    else{
+        console.log("Data done ");
+    }
+    
+} catch (err) {
     console.log("unexpected eror" + err.message);
-  }
+}
+}  
+
+} catch (err) {
+    console.error("Unexpected Error:", err);
+}
 
 
 

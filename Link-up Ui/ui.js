@@ -32,7 +32,7 @@ let uploadPost = async (event) => {
   if (file) {
     const fileName = `user_uploads/${Date.now()}-${file.name}`;
     let { data, error } = await supabase.storage
-      .from("images") // Ensure this matches your Supabase bucket name
+      .from("images")
       .upload(fileName, file, { contentType: file.type });
 
     if (error) {
@@ -44,29 +44,22 @@ let uploadPost = async (event) => {
     imageUrl = `https://tsiriyarbapweplseeqv.supabase.co/storage/v1/object/public/images/${fileName}`;
   }
 
- let  getdata = async ()=>{
-    
-    try {
-        const { data, error } = await supabase
-        .from('users')
-        .select()
-        if (data){
-            console.log( data[0].user_name);
-            
-        }
-        if (error) {
-        console.log(error.message);
-        
-    }
-} catch (error) {
-    console.log(error.message);
-    
- }
+  // Fetch user data first
+  let { data: userData, error: userError } = await supabase.from("users").select("user_name ,username").limit(1);
 
- }
+  if (userError || !userData || userData.length === 0) {
+    console.error("Error fetching user data:", userError?.message);
+    alert("Failed to fetch user data");
+    return;
+  }
+
+  let user_name = userData[0].user_name;
+  let username = userData[0].username ;
+
+  // Insert post
   let { data, error } = await supabase
     .from("posts")
-    .insert([{ caption, image_url: imageUrl, user_name: data[0].user_name, username: "@johndoe" }]);
+    .insert([{ caption, image_url: imageUrl, user_name, username: username }]);
 
   if (error) {
     console.error("Error inserting post:", error.message);
@@ -84,7 +77,7 @@ let postui = (name_of_user, username_of_user, caption, imageUrl) => {
   post_div.innerHTML = `
     <div class="post-card">
         <div class="post-header">
-            <img src="https://cdn.vectorstock.com/i/1000v/66/13/default-avatar-profile-icon-social-media-user-vector-49816613.jpg" alt="User" class="profile-pic">
+            <img src="https://e7.pngegg.com/pngimages/178/595/png-clipart-user-profile-computer-icons-login-user-avatars-monochrome-black.png" alt="User" class="profile-pic">
             <p>${name_of_user}</p>
             <span class="username">${username_of_user}</span>
         </div>
