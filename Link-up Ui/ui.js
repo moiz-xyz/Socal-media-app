@@ -7,7 +7,6 @@ let create_btn = document.getElementById("create_btn");
 let closebtn = document.getElementById("close");
 let postForm = document.getElementById("postForm");
 
-// Toggle post form visibility
 create_btn.addEventListener("click", () => {
   postForm.classList.toggle("active");
 });
@@ -17,7 +16,6 @@ closebtn.addEventListener("click", () => {
 });
 
 
-// ✅ Upload Post
 let uploadPost = async (event) => {
   event.preventDefault();
   
@@ -45,16 +43,13 @@ let uploadPost = async (event) => {
     imageUrl = `https://tsiriyarbapweplseeqv.supabase.co/storage/v1/object/public/images/${fileName}`;
   }
   
- 
-
 let data_loacl= localStorage.getItem("save") ;
 let usersArray = JSON.parse(data_loacl);
 let nameofuser = usersArray[0].nameofuser;
 let signupname = usersArray[0].signupname;
 let user_name = nameofuser;
-  let username = signupname;
+let username = signupname;
 
-  // ✅ Insert Post into Database
   let { data, error } = await supabase
     .from("posts")
     .insert([{ caption, image_url: imageUrl, user_name, username }]);
@@ -69,7 +64,6 @@ let user_name = nameofuser;
   postForm.classList.remove("active");
 };
 
-// ✅ Function to Display a Post
 let postui = (name_of_user, username_of_user, caption, imageUrl) => {
   let post_div = document.createElement("div");
   post_div.innerHTML = `
@@ -91,7 +85,6 @@ let postui = (name_of_user, username_of_user, caption, imageUrl) => {
   document.getElementById("post-container").appendChild(post_div);
 };
 
-// ✅ Fetch Existing Posts
 let fetchPosts = async () => {
   let { data, error } = await supabase.from("posts").select("*");
 
@@ -105,7 +98,6 @@ let fetchPosts = async () => {
   });
 };
 
-// ✅ Real-Time Post Updates
 const channel = supabase
   .channel("posts_changes")
   .on("postgres_changes", { event: "INSERT", schema: "public", table: "posts" }, (payload) => {
@@ -114,13 +106,11 @@ const channel = supabase
   })
   .subscribe();
 
-// ✅ Load Posts on Page Open
+
 fetchPosts();
 document.getElementById("upload").addEventListener("click", uploadPost);
 
-// ✅ Profile Section
 let profile_btn = document.getElementById("profile");
-
 async function fetchUsers() {
   try {
     const { data: { user }, error: authError } = await supabase.auth.getUser();
@@ -128,25 +118,18 @@ async function fetchUsers() {
       console.log("Auth Error:", authError.message);
       return;
     }
-
-
     const { data, error } = await supabase
       .from("users")
       .select()
       .eq("Email", user.email) 
-      
     if (error) {
       console.log("Error fetching user details:", error.message);
       return;
     }
-
     if (data.length === 0) {
       console.log("No user found with this email.");
       return;
     }
-
-
-    // Update profile UI
     let profileDiv = document.getElementById("profile_page");
     profileDiv.innerHTML = `
       <div class="profile-section" id="profileSection">
@@ -160,7 +143,6 @@ async function fetchUsers() {
         <button class="close-btn" id="close-btn">Close</button>
       </div>
     `;
-
     let profileSection = document.getElementById("profileSection");
     profileSection.classList.toggle("active");
 
@@ -168,10 +150,49 @@ async function fetchUsers() {
     close_btn.addEventListener("click", function () {
       profileSection.classList.toggle("active");
     });
-
   } catch (error) {
     console.log("Unexpected error:", error.message);
   }
-}
+  
+  let setImageicon = document.getElementById("setImage");
 
+  let setImage = () =>{   
+    let upload_container = document.getElementById("profile_page");
+    upload_container.innerHTML = `
+     <div class="upload-container">
+     <label for="fileInput" class="upload-icon">📷</label>
+     <input type="file" id="fileInput" accept="image/*">
+     <br>
+     <br>
+     <button id="saveButton" class="save-button">Save Photo</button>
+    </div>
+` ;
+const uploadContainer = document.querySelector('.upload-container')
+uploadContainer.classList.add('active'); // Slide down and appear
+// const fileInput = document.getElementById("fileInput");
+// const
+  }
+  setImageicon.addEventListener("click" , setImage)
+}
 profile_btn.addEventListener("click", fetchUsers);
+
+let logout = document.getElementById("logout");
+
+async function  logoutAccount() {
+  try {
+    const { error } = await supabase.auth.signOut()
+if (error){
+  console.log(error.message);
+  
+} else {
+  console.log("Loged out");
+  
+}
+  } catch (error) {
+    console.log("Unexpected error" , error);
+    
+  }
+
+
+}
+logout.addEventListener("click" , logoutAccount)
