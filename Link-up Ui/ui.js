@@ -121,46 +121,57 @@ document.getElementById("upload").addEventListener("click", uploadPost);
 // ✅ Profile Section
 let profile_btn = document.getElementById("profile");
 
-const showProfile = async () => {
-  let user = await getLoggedInUser();
-  console.log("User ID:", user.id, "Type:", typeof user.id);
+async function fetchUsers() {
+  try {
+    const { data: { user }, error: authError } = await supabase.auth.getUser();
+    if (authError) {
+      console.log("Auth Error:", authError.message);
+      return;
+    }
 
-  if (!user) return;
 
-  // ✅ Fetch user details using UUID
-  let { data: userData, error: userError } = await supabase
-    .from("users")
-    .select("user_name, username, Email")
-    .eq("id", user.id)
-    .single();
+    const { data, error } = await supabase
+      .from("users")
+      .select()
+      .eq("Email", user.email) 
+      
+    if (error) {
+      console.log("Error fetching user details:", error.message);
+      return;
+    }
 
-  if (userError || !userData) {
-    console.error("Error fetching user profile:", userError?.message);
-    alert("Failed to fetch profile data");
-    return;
-  }
+    if (data.length === 0) {
+      console.log("No user found with this email.");
+      return;
+    }
 
-  let profileDiv = document.getElementById("profile_page");
-  profileDiv.innerHTML = `
+
+    // Update profile UI
+    let profileDiv = document.getElementById("profile_page");
+    profileDiv.innerHTML = `
       <div class="profile-section" id="profileSection">
         <h2>Profile Details</h2>
         <img src="https://e7.pngegg.com/pngimages/178/595/png-clipart-user-profile-computer-icons-login-user-avatars-monochrome-black.png" alt="User" class="profile-pic">
         <p><i class="fa-solid fa-pencil" id="setImage"></i> Set an image </p>
         <br>
-        <p id="nameInput">${userData.user_name}</p>
-        <p id="usernameInput">${userData.username}</p>
-        <p id="emailInput">${userData.email}</p>
+        <p id="nameInput">${data[0].user_name}</p>
+        <p id="usernameInput">${data[0].username}</p>
+        <p id="emailInput">${data[0].Email}</p>
         <button class="close-btn" id="close-btn">Close</button>
       </div>
-  `;
+    `;
 
-  let profileSection = document.getElementById("profileSection");
-  profileSection.classList.toggle("active");
-
-  let close_btn = document.getElementById("close-btn");
-  close_btn.addEventListener("click", function () {
+    let profileSection = document.getElementById("profileSection");
     profileSection.classList.toggle("active");
-  });
-};
 
-profile_btn.addEventListener("click", showProfile);
+    let close_btn = document.getElementById("close-btn");
+    close_btn.addEventListener("click", function () {
+      profileSection.classList.toggle("active");
+    });
+
+  } catch (error) {
+    console.log("Unexpected error:", error.message);
+  }
+}
+
+profile_btn.addEventListener("click", fetchUsers);
