@@ -32,7 +32,23 @@
        <img src="./stories.png" alt="" srcset="">
             </div>
             <div class="post">
-                 <img src="./How-to-Edit-an-Instagram-Post-A-Complete-Guide-768x388.jpg" alt="">
+                <div id="post-container">
+                    <!-- Dummy Post -->
+                    <div class="post-card">
+                        <div class="post-header">
+                            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSyWm4woEJIoo2ICpyegi7ugjemX8euLDpflQ&s" alt="User" class="profile-pic">
+                            <p>John Doe</p>
+                            <span class="username">@johndoe123</span>
+                        </div>
+                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSyWm4woEJIoo2ICpyegi7ugjemX8euLDpflQ&s" alt="Post Image" class="post-image">
+                        <div class="post-actions">
+                            <i class="fas fa-heart like-icon"></i>
+                            <i class="fas fa-comment comment-icon"></i>
+                            <i class="fa-solid fa-trash deletepost" id=""></i>
+                        </div>
+                        <p class="post-title"> Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -48,8 +64,9 @@
     <div class="form-container" id="postForm">
         <form action="">
             <i class="fa-solid fa-xmark" id="close"></i>
-            <label for="file">
-                <input type="file" id="file">
+            <label for="file" class="file-input-label">
+                <span>Choose File</span>
+                <input type="file" id="file" class="file-input">
             </label>    
             <label for="caption">
                 <input type="text" placeholder="Add a caption" id="caption">
