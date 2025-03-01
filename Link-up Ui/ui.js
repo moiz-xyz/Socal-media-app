@@ -59,8 +59,11 @@ let username = signupname;
     alert("Failed to post");
     return;
   }
-
-  alert("Post posted successfully!");
+  Swal.fire({
+    title: "Post Posted!",
+    icon: "success",
+    draggable: true
+  });
   postForm.classList.remove("active");
 };
 
@@ -185,14 +188,16 @@ if (error){
   console.log(error.message);
   
 } else {
-  console.log("Loged out");
-  
+  Swal.fire({
+    title: "Loged Out!",
+    icon: "success",
+    draggable: true
+  });
+
 }
   } catch (error) {
     console.log("Unexpected error" , error);
-    
   }
-
 
 }
 logout.addEventListener("click" , logoutAccount)
